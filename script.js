@@ -2,6 +2,21 @@
 document.documentElement.classList.add('js');
 const menuButton = document.querySelector('.menu-button');
 const nav = document.getElementById('site-nav');
+const header = document.querySelector('.header');
+
+// Use the rendered header height so anchors stay visible after resizing or zooming.
+const updateHeaderOffset = () => {
+  if (header) {
+    document.documentElement.style.setProperty('--header-offset', `${header.getBoundingClientRect().height}px`);
+  }
+};
+updateHeaderOffset();
+if (header && 'ResizeObserver' in window) {
+  new ResizeObserver(updateHeaderOffset).observe(header);
+} else {
+  window.addEventListener('resize', updateHeaderOffset);
+}
+
 if (menuButton && nav) {
   menuButton.hidden = false;
   const closeMenu = () => {
@@ -34,7 +49,6 @@ if (nav) {
     hash: link.hash,
     element: document.getElementById(link.hash.slice(1))
   })).filter(section => section.element);
-  const header = document.querySelector('.header');
   let navigating = false;
   let settleTimer;
   let framePending = false;

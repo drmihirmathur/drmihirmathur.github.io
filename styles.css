@@ -8,6 +8,8 @@
   --wash: #edf4ff;
   --sans: 'Inter', Arial, Helvetica, sans-serif;
   --header-height: 68px;
+  --header-offset: calc(var(--header-height) + 1px);
+  --section-space: clamp(32px, 5svh, 56px);
 }
 
 * {
@@ -16,14 +18,15 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-height) + 24px);
+  scroll-padding-top: calc(var(--header-offset) + 12px);
 }
 
 body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font: 500 1.125rem/1.8 var(--sans);
+  font: 500 1.125rem/1.65 var(--sans);
+  overflow-wrap: break-word;
 }
 
 img {
@@ -65,11 +68,11 @@ a:focus-visible, button:focus-visible {
 }
 
 .wrap {
-  width: min(1160px, calc(100% - 96px));
+  width: min(1240px, calc(100% - 80px));
   margin-inline: auto;
 }
 
-.hero>*, .section-layout>*, .education-grid>*, .community-grid>*, .contact-grid>* {
+.hero>*, .section-layout>*, .section-intro>*, .education-grid>*, .community-grid>*, .contact-grid>* {
   min-width: 0;
 }
 
@@ -191,10 +194,13 @@ a:focus-visible, button:focus-visible {
 
 .hero {
   display: grid;
-  grid-template-areas: 'eyebrow portrait''name portrait''role portrait''details portrait''credentials credentials';
+  min-height: calc(100vh - var(--header-offset));
+  min-height: calc(100dvh - var(--header-offset));
+  align-content: center;
+  grid-template-areas: 'eyebrow portrait' 'name portrait' 'details portrait' 'credentials credentials';
   grid-template-columns: minmax(0, 1fr) 370px;
   column-gap: 80px;
-  padding-top: 40px;
+  padding-block: clamp(16px, 3svh, 32px) 12px;
 }
 
 .hero>.eyebrow {
@@ -331,12 +337,11 @@ h1 {
 .hero-credentials {
   grid-area: credentials;
   display: grid;
-  grid-template-columns: 1.1fr 1.2fr .65fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(0, .65fr);
   gap: 32px;
   margin-top: 28px;
   padding-block: 24px;
   border-top: 2px solid var(--ink);
-  border-bottom: 1px solid var(--line);
 }
 
 .hero-credentials p {
@@ -353,7 +358,7 @@ h1 {
 }
 
 .section {
-  padding-block: 84px;
+  padding-block: var(--section-space);
 }
 
 .section-layout {
@@ -380,6 +385,7 @@ h1 {
 }
 
 .experience-entry {
+  min-width: 0;
   padding-block: 27px 38px;
 }
 
@@ -494,19 +500,20 @@ h1 {
 
 .credential-heading {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
 }
 
 .credential-heading>h3, .credential-heading>h4 {
-  flex: 1;
+  flex: 1 1 200px;
   min-width: 0;
   margin-bottom: 0;
 }
 
 .credential-heading>.hospital-name {
-  flex: 1;
+  flex: 1 1 240px;
 }
 
 .experience-entry .credential-heading {
@@ -558,13 +565,13 @@ h1 {
 .section-heading {
   display: flex;
   justify-content: space-between;
-  gap: 45px;
+  gap: 32px;
   align-items: flex-end;
-  margin-bottom: 42px;
+  margin-bottom: 28px;
 }
 
 .section-heading .eyebrow {
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
 .section-heading>p {
@@ -575,8 +582,8 @@ h1 {
 
 .community-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
 }
 
 .community-entry {
@@ -605,7 +612,7 @@ h1 {
 
 .education-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 80px;
 }
 
@@ -818,6 +825,7 @@ h1 {
 }
 
 .learning-row {
+  min-width: 0;
   padding-block: 26px 30px;
   border-bottom: 1px solid var(--line);
 }
@@ -833,7 +841,7 @@ h1 {
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px 28px;
   font-size: 1.0625rem;
   color: var(--body);
@@ -860,15 +868,15 @@ h1 {
 }
 
 .contact-section {
-  padding-block: 72px 78px;
+  padding-block: var(--section-space);
   background: var(--ink);
   color: #fff;
 }
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 75px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 48px;
 }
 
 .contact-section .eyebrow {
@@ -899,7 +907,7 @@ h1 {
   gap: 7px 16px;
   text-decoration: none;
   border-bottom: 1px solid #728eb4;
-  padding-block: 22px;
+  padding-block: 18px;
 }
 
 .contact-details .detail-label {
@@ -1038,6 +1046,14 @@ h1 {
     gap: 0;
   }
 
+  .header {
+    position: static;
+  }
+
+  .js .header {
+    position: sticky;
+  }
+
   .identity {
     min-height: var(--header-height);
     align-items: center;
@@ -1084,7 +1100,7 @@ h1 {
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    max-height: calc(100dvh - var(--header-height) - 1px);
+    max-height: calc(100dvh - var(--header-offset));
     overflow-y: auto;
     overscroll-behavior: contain;
     padding-bottom: 16px;
@@ -1102,6 +1118,12 @@ h1 {
 
   .js .site-nav {
     display: none;
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    padding: 8px 24px 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
   }
 
   .js .site-nav.is-open {
@@ -1112,8 +1134,8 @@ h1 {
     grid-template-areas: 'eyebrow' 'portrait' 'name' 'credentials' 'details';
     grid-template-columns: minmax(0, 1fr);
     column-gap: 24px;
-    row-gap: 20px;
-    padding-top: 28px;
+    row-gap: 16px;
+    padding-top: 20px;
   }
 
   .hero>.eyebrow {
@@ -1124,7 +1146,13 @@ h1 {
   .hero h1 {
     align-self: center;
     margin-bottom: 0;
+    font-size: clamp(1.75rem, 8.5vw, 3rem);
     text-align: center;
+    white-space: nowrap;
+  }
+
+  .hero h1 br {
+    display: none;
   }
 
   h1 {
@@ -1151,7 +1179,7 @@ h1 {
   }
 
   .portrait-group {
-    width: clamp(200px, 45vw, 260px);
+    width: clamp(128px, min(24svh, 26vw), 240px);
     max-width: 100%;
     justify-self: center;
   }
@@ -1162,7 +1190,7 @@ h1 {
   }
 
   .section {
-    padding-block: 68px;
+    padding-block: var(--section-space);
   }
 
   .section-layout {
@@ -1188,7 +1216,7 @@ h1 {
 
   .section-heading {
     display: block;
-    margin-bottom: 34px;
+    margin-bottom: 28px;
   }
 
   .section-heading>p {
@@ -1225,7 +1253,7 @@ h1 {
 
 @media (max-width: 700px) {
   .hero {
-    row-gap: 20px;
+    row-gap: 14px;
   }
 
   .hero-role {
@@ -1256,9 +1284,11 @@ h1 {
   }
 
   .hero {
-    padding-top: 28px;
+    grid-template-areas: 'eyebrow' 'portrait' 'name' 'credentials' 'details';
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 12px;
     column-gap: 14px;
-    row-gap: 20px;
+    row-gap: 10px;
   }
 
   .eyebrow, .detail-label {
@@ -1268,6 +1298,18 @@ h1 {
 
   .hero .eyebrow {
     margin-bottom: 0;
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.75rem, 8.5vw, 2.75rem);
+    line-height: 1.05;
+    text-align: center;
+  }
+
+  .hero .portrait-group {
+    width: clamp(168px, 25svh, 224px);
   }
 
   h1 {
@@ -1281,15 +1323,23 @@ h1 {
 
   .hero-description {
     max-width: 450px;
+    font-size: 1rem;
+    line-height: 1.45;
   }
 
   .hero-links {
-    gap: 12px;
-    margin-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 16px;
   }
 
   .hero-links .button {
     width: 100%;
+    min-height: 48px;
+    padding: 8px 10px;
+    font-size: .9375rem;
+    line-height: 1.35;
   }
 
   .button {
@@ -1314,10 +1364,10 @@ h1 {
 
   .hero-credentials>div {
     display: grid;
-    grid-template-columns: minmax(115px, .9fr) minmax(0, 1.4fr);
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.4fr);
     align-items: center;
     gap: 14px;
-    padding-block: 10px;
+    padding-block: 6px;
   }
 
   .hero-credentials>div+div {
@@ -1325,22 +1375,22 @@ h1 {
   }
 
   .hero-credentials .detail-label {
-    line-height: 1.5;
+    line-height: 1.4;
   }
 
   .hero-credentials p {
     margin-top: 0;
-    font-size: 1.0625rem;
-    line-height: 1.5;
+    font-size: 1rem;
+    line-height: 1.4;
   }
 
   .hero-credentials p span {
-    display: block;
-    font-size: 1rem;
+    display: inline;
+    font-size: .875rem;
   }
 
   .section {
-    padding-block: 54px;
+    padding-block: var(--section-space);
   }
 
   h2, .section-intro h2 {
@@ -1484,7 +1534,7 @@ h1 {
   }
 
   .contact-section {
-    padding-block: 54px;
+    padding-block: var(--section-space);
   }
 
   .contact-grid {
@@ -1519,7 +1569,7 @@ h1 {
   }
 
   .hero {
-    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-columns: minmax(0, 1fr) clamp(180px, 38svh, 300px);
     column-gap: 48px;
     padding-top: 24px;
   }
@@ -1564,7 +1614,7 @@ h1 {
   }
 
   .hero {
-    grid-template-columns: minmax(0, 1fr) 260px;
+    grid-template-columns: minmax(0, 1fr) clamp(160px, 35svh, 260px);
     column-gap: 40px;
     padding-top: 16px;
   }
@@ -1599,25 +1649,91 @@ h1 {
   }
 }
 
+@media (min-width: 541px) and (max-width: 860px) and (max-height: 700px) {
+  .hero {
+    padding-top: 12px;
+    row-gap: 10px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.75rem, 8.5vw, 2.75rem);
+  }
+
+  .hero .portrait-group {
+    width: clamp(120px, min(20svh, 24vw), 160px);
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .hero-links {
+    margin-top: 12px;
+  }
+
+  .hero-links .button {
+    min-height: 44px;
+    padding-block: 8px;
+  }
+
+  .hero-credentials {
+    gap: 16px;
+    padding-block: 10px;
+  }
+}
+
 @media (max-width: 540px) and (max-height: 700px) {
   :root {
     --header-height: 56px;
   }
 
   .hero {
-    padding-top: 12px;
+    padding-block: 6px;
     column-gap: 12px;
-    row-gap: 10px;
+    row-gap: 6px;
   }
 
   .hero .eyebrow {
     margin-bottom: 0;
+    line-height: 1.35;
   }
 
   .hero h1 {
-    font-size: clamp(2.625rem, 12.5vw, 3.5rem);
-    line-height: 1.04;
+    font-size: clamp(1.75rem, 8.5vw, 2.25rem);
+    line-height: 1.1;
     margin-bottom: 0;
+    text-align: center;
+  }
+
+  .hero .portrait-group {
+    width: clamp(112px, 26svh, 176px);
+  }
+
+  .hero-description {
+    font-size: .9375rem;
+    line-height: 1.4;
+  }
+
+  .hero-links {
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .hero-links .button {
+    min-height: 44px;
+    padding: 4px 8px;
+    font-size: .875rem;
+    line-height: 1.2;
+  }
+
+  .hero-credentials>div {
+    padding-block: 3px;
+  }
+
+  .hero-credentials :is(.detail-label, p, p span) {
+    font-size: .875rem;
+    line-height: 1.35;
   }
 
   .hero-role {
@@ -1630,24 +1746,39 @@ h1 {
   }
 }
 
+@media (max-width: 359px) and (max-height: 700px) {
+  .hero {
+    row-gap: 5px;
+  }
+
+  .hero .portrait-group {
+    width: 112px;
+  }
+}
+
 @media (min-width: 541px) and (max-width: 860px) and (max-height: 500px) {
   :root {
     --header-height: 56px;
   }
 
   .hero {
-    padding-top: 8px;
+    padding-block: 4px;
     column-gap: 16px;
-    row-gap: 4px;
+    row-gap: 2px;
   }
 
   .hero .eyebrow {
     margin-bottom: 0;
+    line-height: 1.35;
   }
 
   .hero h1 {
-    font-size: 3rem;
+    font-size: clamp(1.75rem, 5vw, 2rem);
     margin-bottom: 0;
+  }
+
+  .hero .portrait-group {
+    width: clamp(80px, calc(100svh - 294px), 112px);
   }
 
   .hero h1 br, .hero-role br {
@@ -1660,7 +1791,94 @@ h1 {
   }
 
   .hero-credentials {
-    padding-block: 8px;
+    padding-block: 4px;
+  }
+
+  .hero-credentials .detail-label {
+    line-height: 1.35;
+  }
+
+  .hero-credentials p {
+    margin-top: 4px;
+    font-size: .875rem;
+    line-height: 1.4;
+  }
+
+  .hero-credentials p span {
+    display: inline;
+    font-size: inherit;
+  }
+
+  .hero-description {
+    font-size: .9375rem;
+    line-height: 1.4;
+  }
+
+  .hero-links {
+    margin-top: 8px;
+  }
+}
+
+@media (min-width: 541px) and (max-width: 860px) and (max-height: 360px) {
+  .hero {
+    grid-template-areas: 'eyebrow portrait' 'name name' 'details credentials';
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    padding-block: 2px;
+    row-gap: 1px;
+  }
+
+  .hero>.eyebrow {
+    max-width: calc(100% - 64px);
+    align-self: center;
+    line-height: 1.35;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem;
+    line-height: 1.05;
+  }
+
+  .hero .portrait-group {
+    grid-area: 1 / 1 / 2 / -1;
+    width: 72px;
+    justify-self: center;
+  }
+
+  .hero-credentials {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-block: 0;
+  }
+
+  .hero-credentials>div {
+    padding-block: 2px;
+  }
+
+  .hero-credentials p {
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+
+  .hero-credentials>div+div {
+    border-top: 1px solid var(--line);
+  }
+
+  .hero-description {
+    font-size: .875rem;
+    line-height: 1.35;
+  }
+
+  .hero-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .hero-links .button {
+    min-height: 44px;
+    padding: 4px 6px;
+    font-size: .875rem;
+    line-height: 1.2;
   }
 }
 
